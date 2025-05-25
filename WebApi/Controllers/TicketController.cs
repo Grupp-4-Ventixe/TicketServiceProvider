@@ -3,6 +3,7 @@ using Data.Contexts;
 using Data.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers;
 
@@ -41,7 +42,14 @@ public class TicketController(DataContext context) : ControllerBase
         });
     }
 
-   
+    [HttpGet]
+    public async Task<IActionResult> GetAllTickets()
+    {
+        var tickets = await _context.Tickets.ToListAsync();
+        return Ok(tickets); 
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> CreateTickets([FromBody] CreateTicketsRequest request)
     {
